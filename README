@@ -1,5 +1,4 @@
-PHP Git Deploy 0.0.1
-_____________________
+<u>PHP Git Deploy 0.0.1</u>
 
 This project is designed to use the Git in order to group your commited files into patches by using it by a simple way and organize your patches.
 
@@ -10,8 +9,7 @@ Use:
 
 This will generate a directory with your modified files.
 
-To do list
-__________
+<u>To do list</u>
 
 * Make multiple commit numbers to group on a version/patch
 * Define folders' names separated for each version/patch

@@ -1,0 +1,19 @@
+PHP Git Deploy 0.0.1
+============
+
+This project is designed to use the Git in order to group your commited files into patches by using it by a simple way and organize your patches.
+
+Use:
+
+* Uncompress this project on your directory root
+* Run: php deploy.php <your_commit_number>
+
+This will generate a directory with your modified files.
+
+To do list
+======
+
+* Make multiple commit numbers to group on a version/patch
+* Define folders' names separated for each version/patch
+* Make a configuration file for additional information
+* Connect your FTP server in order to replace/delete files automatically

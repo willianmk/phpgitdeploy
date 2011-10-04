@@ -5,7 +5,7 @@ This project is designed to use the Git in order to group your commited files in
 Use:
 
 * Uncompress this project on your directory root
-* Run: php deploy.php <your_commit_number>
+* Run: php deploy.php <Version level> <commit_number1> [commit_number2] [commit_number3] [commit_number_n]
 
 This will generate a directory with your modified files.
 

@@ -1,36 +1,44 @@
 <?php
 
-$levelVer = $argv[1];
+$levelVer = $argv[1]; //Captures the versioning level
 
-$arq = fopen("./version.txt", "r+");
+$arq = fopen("./version.txt", "r+"); //Open the version file
 $line = fread($arq, filesize("./version.txt"));
 $fields = explode(";", $line);
 
-$version = $fields[0];
-$levels = explode(".", $version);
+$version = $fields[0]; //Captures the version number
+$levels = explode(".", $version); //Separates the version number elements
 
-if ($levelVer > count($levels)) {
-    for ($i=count($levels)-1; $i < $levelVer; $i++) {
-        if(!empty($levels[$i])) continue;
-        else $levels[$i]="0";
+if ($levelVer > count($levels)) { //If the updated version is greater than the existant one...
+    for ($i = count($levels) - 1; $i < $levelVer; $i++) {
+        if (!empty($levels[$i]))
+            continue;
+        else
+            $levels[$i] = "0"; //... fills with zeros
     }
-    $levels[count($levels)-1]="1";
+    $levels[count($levels) - 1] = "1";
 }
-else
-    $levels[$levelVer-1]++;
+else {
+    $levels[$levelVer - 1]++; // ... increments the version level ...
+    $levels = array_slice($levels, 0, $levelVer, false); // and cuts off smaller version numbers
+}
 
-$writeVer = implode(".", $levels) . date(";Y-m-d H:i:s");
-$arq = fopen("./version.txt", "w+");
+$version = implode(".", $levels); //Rebuilds tthe version number
+$writeVer = implode(".", $levels) . date(";Y-m-d H:i:s"); //Prepares the format to be written onto the file version.txt
+$arq = fopen("./version.txt", "w+"); // Empties the file version.txt
 fwrite($arq, $writeVer);
 
 for ($i = 2; $i < $argc; $i++) {
     $commitNum = $argv[$i];
-    echo "Deploy: " . $commitNum . "\n";
+    echo "\nCommit number: " . $commitNum . "\n";
     $fileList = explode("\n", shell_exec("git show " . $commitNum . " --name-status --pretty=format:"));
-    $writeDir = "./" . $writeVer . "_" . date("YmdHis");
-    mkdir("./" . $writeDir, 0777);
-    chdir("./" . $writeDir);
-
+    $writeDir = "./" . $version . "_" . date("Ymd_His");
+    
+    if (!is_dir($writeDir)) {
+        mkdir("./" . $writeDir, 0777);
+        chdir("./" . $writeDir);
+    }
+    
     foreach ($fileList as $file) {
         if (empty($file))
             continue;
@@ -42,7 +50,7 @@ for ($i = 2; $i < $argc; $i++) {
         if ($status == "D")
             continue;
 
-        //Prepara arvore de dirs
+        //Prepares dir tree
         $arrPath = explode("/", $path);
         $numPathLevels = count($arrPath);
         $leafFile = $arrPath[$numPathLevels - 1];
@@ -53,7 +61,8 @@ for ($i = 2; $i < $argc; $i++) {
 
         if (!is_dir("./" . $dirTree))
             mkdir($dirTree, 0777, true);
-
+        
+        echo "Copying file: " . $dirTree . $leafFile . "\n";
         copy("../../" . $dirTree . $leafFile, "./" . $dirTree . $leafFile);
     }
 }

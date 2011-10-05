@@ -28,17 +28,18 @@ $writeVer = implode(".", $levels) . date(";Y-m-d H:i:s"); //Prepares the format 
 $arq = fopen("./version.txt", "w+"); // Empties the file version.txt
 fwrite($arq, $writeVer);
 
+$writeDir = "./" . $version . "_" . date("Ymd_His");
+
+if (!is_dir($writeDir)) {
+    mkdir("./" . $writeDir, 0777);
+    chdir("./" . $writeDir);
+}
+
 for ($i = 2; $i < $argc; $i++) {
     $commitNum = $argv[$i];
     echo "\nCommit number: " . $commitNum . "\n";
     $fileList = explode("\n", shell_exec("git show " . $commitNum . " --name-status --pretty=format:"));
-    $writeDir = "./" . $version . "_" . date("Ymd_His");
-    
-    if (!is_dir($writeDir)) {
-        mkdir("./" . $writeDir, 0777);
-        chdir("./" . $writeDir);
-    }
-    
+
     foreach ($fileList as $file) {
         if (empty($file))
             continue;
@@ -61,7 +62,7 @@ for ($i = 2; $i < $argc; $i++) {
 
         if (!is_dir("./" . $dirTree))
             mkdir($dirTree, 0777, true);
-        
+
         echo "Copying file: " . $dirTree . $leafFile . "\n";
         copy("../../" . $dirTree . $leafFile, "./" . $dirTree . $leafFile);
     }

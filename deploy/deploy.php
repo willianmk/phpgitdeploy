@@ -1,6 +1,8 @@
 <?php
-
 $levelVer = $argv[1]; //Captures the versioning level
+
+$iniFile = parse_ini_file("./config.ini", "production");
+print_r($iniFile["production"]); die;
 
 $arq = fopen("./version.txt", "r+"); //Open the version file
 $line = fread($arq, filesize("./version.txt"));

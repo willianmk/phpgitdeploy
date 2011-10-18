@@ -37,6 +37,8 @@ if (!is_dir($writeDir)) {
     chdir("./" . $writeDir);
 }
 
+shell_exec("git pull"); //Does a git pull to retreive up-to-date repository
+
 for ($i = 2; $i < $argc; $i++) {
     $commitNum = $argv[$i];
     echo "\nCommit number: " . $commitNum . "\n";

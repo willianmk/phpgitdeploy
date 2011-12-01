@@ -11,7 +11,4 @@ This will generate a directory with your modified files.
 
 To do list
 
-* Make multiple commit numbers to group on a version/patch
-* Define folders' names separated for each version/patch
-* Make a configuration file for additional information
 * Connect your FTP server in order to replace/delete files automatically
